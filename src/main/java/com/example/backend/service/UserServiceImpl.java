@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.UserCreateDTO;
+import com.example.backend.dto.UserUpdateDto;
 import com.example.backend.dto.UserViewDTO;
 import com.example.backend.exception.NotFoundException;
 import com.example.backend.model.User;
@@ -37,10 +38,20 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserViewDTO createUser(UserCreateDTO userCreateDTO) {
-        //bu save bizim için otomatik olarak runtime da saveleme yapacak
+        //bu save bizim için otomatik olarak runtime da save işlemi yapacak
         final User user = userRepository.save
                 (new User(userCreateDTO.getFirstName(),userCreateDTO.getLastName()));
 
         return UserViewDTO.of(user);
+    }
+
+    @Override
+    @Transactional
+    public UserViewDTO updateUser(Long id, UserUpdateDto userUpdateDto) {
+        final User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found Exception"));
+        user.setFirstName(userUpdateDto.getFirstName());
+        user.setLastName(userUpdateDto.getLastName());
+        final User updatedUser = userRepository.save(user);
+        return UserViewDTO.of(updatedUser);
     }
 }

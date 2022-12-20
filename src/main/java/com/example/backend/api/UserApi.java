@@ -1,11 +1,13 @@
 package com.example.backend.api;
 
 import com.example.backend.dto.UserCreateDTO;
+import com.example.backend.dto.UserUpdateDto;
 import com.example.backend.dto.UserViewDTO;
 import com.example.backend.service.UserService;
 import com.example.backend.util.GenericResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +36,12 @@ public class UserApi {
     public ResponseEntity<?> createUser(@RequestBody UserCreateDTO userCreateDTO){
         userService.createUser(userCreateDTO);
         return ResponseEntity.ok(new GenericResponse("User created!"));
+    }
+
+    @PutMapping("v1/user/{id}")//iki path aynı olabilir çünkü annotations farklı
+    public ResponseEntity<UserViewDTO> updateUser(@PathVariable("id") Long id, @RequestBody UserUpdateDto userUpdateDto){
+        final UserViewDTO user = userService.updateUser(id, userUpdateDto);
+        return ResponseEntity.ok(user);
     }
 }
 
