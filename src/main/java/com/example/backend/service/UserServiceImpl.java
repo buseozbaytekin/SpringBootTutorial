@@ -54,4 +54,13 @@ public class UserServiceImpl implements UserService{
         final User updatedUser = userRepository.save(user);
         return UserViewDTO.of(updatedUser);
     }
+
+    //id numarasına göre kullanıcı veritabanından kontrol ediliyor kullanıcı
+    // var mı diye yoksa not found exception dönüyor varsa işlemleri yapıyor
+    @Override
+    @Transactional
+    public void deleteUser(Long id) {
+        final User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found Exception"));
+        userRepository.deleteById(user.getId());
+    }
 }

@@ -43,6 +43,13 @@ public class UserApi {
         final UserViewDTO user = userService.updateUser(id, userUpdateDto);
         return ResponseEntity.ok(user);
     }
+
+    @DeleteMapping("v1/user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
+        userService.deleteUser(id);
+        return ResponseEntity.ok(new GenericResponse("User deleted!"));
+    }
+
 }
 
 
