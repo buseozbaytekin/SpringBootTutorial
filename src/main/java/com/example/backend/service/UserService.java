@@ -4,6 +4,7 @@ import com.example.backend.dto.UserCreateDTO;
 import com.example.backend.dto.UserUpdateDto;
 import com.example.backend.dto.UserViewDTO;
 import com.example.backend.model.User;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface UserService {
     UserViewDTO updateUser(Long id, UserUpdateDto userUpdateDto);
 
     void deleteUser(Long id);
+
+    List<UserViewDTO> slice(Pageable pageable);
 }

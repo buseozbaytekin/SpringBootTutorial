@@ -7,9 +7,12 @@ import com.example.backend.exception.NotFoundException;
 import com.example.backend.model.User;
 import com.example.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,4 +66,12 @@ public class UserServiceImpl implements UserService{
         final User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("Not Found Exception"));
         userRepository.deleteById(user.getId());
     }
+
+    @Override
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+    public List<UserViewDTO> slice(Pageable pageable) {
+        return userRepository.findAll(pageable).stream().map(UserViewDTO::of).collect(Collectors.toList());
+    }
+
+
 }

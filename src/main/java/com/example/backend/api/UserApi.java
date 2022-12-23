@@ -6,6 +6,7 @@ import com.example.backend.dto.UserViewDTO;
 import com.example.backend.service.UserService;
 import com.example.backend.util.GenericResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +49,12 @@ public class UserApi {
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
         return ResponseEntity.ok(new GenericResponse("User deleted!"));
+    }
+
+    @GetMapping("v1/user/slice")
+    public ResponseEntity<List<UserViewDTO>> slice(Pageable pageable){
+        final List<UserViewDTO> users = userService.slice(pageable);
+        return ResponseEntity.ok(users);
     }
 
 }
