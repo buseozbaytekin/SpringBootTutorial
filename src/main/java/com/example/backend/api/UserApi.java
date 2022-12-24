@@ -5,6 +5,7 @@ import com.example.backend.dto.UserUpdateDto;
 import com.example.backend.dto.UserViewDTO;
 import com.example.backend.service.UserService;
 import com.example.backend.util.GenericResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class UserApi {
     }
 
     @PostMapping("v1/user")
-    public ResponseEntity<?> createUser(@RequestBody UserCreateDTO userCreateDTO){
+    public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateDTO userCreateDTO){
         userService.createUser(userCreateDTO);
         return ResponseEntity.ok(new GenericResponse("User created!"));
     }
