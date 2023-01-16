@@ -16,43 +16,43 @@ import java.util.List;
 
 //burada projede gelecek tüm istekler handle edilmektedir.
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserApi {
 
     private final UserService userService;
 
-    @GetMapping("v1/user/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<UserViewDTO> getUserById(@PathVariable Long id){
         final UserViewDTO user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("v1/user")
+    @GetMapping
     public ResponseEntity<List<UserViewDTO>> getUsers(){
         final List<UserViewDTO> users = userService.getUser();
         return ResponseEntity.ok(users);
     }
 
-    @PostMapping("v1/user")
+    @PostMapping
     public ResponseEntity<?> createUser(@Valid @RequestBody UserCreateDTO userCreateDTO){
         userService.createUser(userCreateDTO);
         return ResponseEntity.ok(new GenericResponse("User created!"));
     }
 
-    @PutMapping("v1/user/{id}")//iki path aynı olabilir çünkü annotations farklı
+    @PutMapping("{id}")//iki path aynı olabilir çünkü annotations farklı
     public ResponseEntity<UserViewDTO> updateUser(@PathVariable("id") Long id, @RequestBody UserUpdateDto userUpdateDto){
         final UserViewDTO user = userService.updateUser(id, userUpdateDto);
         return ResponseEntity.ok(user);
     }
 
-    @DeleteMapping("v1/user/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id){
         userService.deleteUser(id);
         return ResponseEntity.ok(new GenericResponse("User deleted!"));
     }
 
-    @GetMapping("v1/user/slice")
+    @GetMapping("slice")
     public ResponseEntity<List<UserViewDTO>> slice(Pageable pageable){
         final List<UserViewDTO> users = userService.slice(pageable);
         return ResponseEntity.ok(users);

@@ -44,9 +44,9 @@ public class UserServiceImpl implements UserService{
         //bu save bizim için otomatik olarak runtime da save işlemi yapacak
         final User user = userRepository.save
                 (new User(userCreateDTO.getUserName(),userCreateDTO.getFirstName(),userCreateDTO.getLastName()));
-
         return UserViewDTO.of(user);
     }
+
 
     @Override
     @Transactional
